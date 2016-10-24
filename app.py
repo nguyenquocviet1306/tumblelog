@@ -8,11 +8,11 @@ class Post(Document):
     title = StringField()
     content = StringField()
     def to_json(self):
-        return jsonify([post.to_json() for post in Post.objects])
+        return {"title" : self.title,"content": self.content}
 
-@app.route('/')
+@app.route('/',methods=["GET","POST"])
 def hello_world():
-    return jsonify(Post.objects[0].to_json())
+    return jsonify([post.to_json() for post in Post.objects])
 
 
 if __name__ == '__main__':
