@@ -12,7 +12,15 @@ class Post(Document):
 
 @app.route('/',methods=["GET","POST"])
 def hello_world():
-    return jsonify([post.to_json() for post in Post.objects])
+    if request.method == "GET":
+        return jsonify([post.to_json() for post in Post.objects])
+    elif request.method == "POST":
+        form = request.form
+        title_value = form["title"]
+        content_value = form["content"]
+        p = Post(title=title_value, content=content_value)
+        p.save()
+        return jsonify({"code": 1, "message": "OK"})
 
 
 if __name__ == '__main__':
